@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 function Header() {
   return (
     <div className='p-5 shadow-2xl  flex justify-between items-center'>
-    <h1>Stock App</h1>
+      <img src="" alt="Stock Logo" className='h-15 w-20'/>
     <Button>Login/Register</Button>
 </div>
 
