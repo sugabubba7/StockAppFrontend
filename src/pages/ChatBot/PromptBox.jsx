@@ -10,8 +10,14 @@ function PromptBox({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim()) {
-      onSubmit(input); 
+      onSubmit(input);
       setInput(''); 
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e); 
     }
   };
 
@@ -22,6 +28,7 @@ function PromptBox({ onSubmit }) {
         placeholder="Ask Doubt..."
         value={input}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}  
         className="border-gray-950 shadow-black rounded-lg p-2 bg-black flex-grow max-w-lg text-white"
       />
       <button type="submit" onClick={handleSubmit}>
