@@ -11,7 +11,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/chat" element={<ChatBot/>}/>
-        <Route path="/candleStick" element={<CandlePattern />} />
+        <Route path="/Learn" element={<CandlePattern />} />
         <Route path="/candle/:candleName" element={<CandleDetail />} />
       </Routes>
     </Router>
