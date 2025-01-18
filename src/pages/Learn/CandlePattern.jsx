@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 function CandlePattern() {
   const candles = [
-    { name: "Doji", image: "/path/to/image1.jpg" },
+    { name: "Doji", image: "/Doji.png" },
     { name: "Hammer", image: "/path/to/image2.jpg" },
     { name: "Engulfing", image: "/path/to/image3.jpg" },
     { name: "Morning Star", image: "/path/to/image4.jpg" },
