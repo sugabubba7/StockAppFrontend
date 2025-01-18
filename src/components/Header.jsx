@@ -14,7 +14,7 @@ function Header() {
       borderTopRightRadius: '0',        
       borderBottom: '1px solid rgba(255, 255, 255, 0.18)',  
     }}>
-      <img src="" alt="Stock Logo" className="h-15 w-20" />
+      <img src="./Logo.png" alt="Stock Logo" className="h-15 w-20" />
       <Button>Login/Register</Button>
     </div>
   );
