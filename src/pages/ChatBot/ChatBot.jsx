@@ -53,21 +53,41 @@ function ChatBot() {
   };
 
   return (
-    <div className="bg-gray-600 min-h-screen">
-      <h1 className="text-white p-4">This is a ChatBot.</h1>
+    <div className="bg-gray-100 min-h-screen flex flex-col justify-between text-gray-800">
+      <h1 className="text-3xl font-semibold p-6 text-center text-gray-900">Classic AI ChatBot</h1>
 
-      {messages.map((msg, index) => {
-        if (msg.sender === 'user') {
-          return <UserChatBox key={index} message={msg.message} />;
-        } else if (msg.sender === 'AI') {
-          return <AIChatBox key={index} message={msg.message} />;
-        }
-        return null;
-      })}
+      <div className="flex-1 overflow-y-auto p-4">
+        {messages.map((msg, index) => {
+          if (msg.sender === 'user') {
+            return (
+              <UserChatBox
+                key={index}
+                message={msg.message}
+                className="mb-3 bg-white text-gray-700 border border-gray-300 rounded-lg shadow-sm"
+              />
+            );
+          } else if (msg.sender === 'AI') {
+            return (
+              <AIChatBox
+                key={index}
+                message={msg.message}
+                className="mb-3 bg-gray-50 text-gray-700 border border-gray-300 rounded-lg shadow-sm"
+              />
+            );
+          }
+          return null;
+        })}
+      </div>
 
-      <PromptBox onSubmit={handleUserSubmit} />
+      <PromptBox
+        onSubmit={handleUserSubmit}
+        className="bg-gray-300 hover:bg-gray-400 transition-all duration-300 text-gray-900 font-semibold p-3 rounded-lg shadow-md"
+      />
     </div>
   );
 }
 
 export default ChatBot;
+
+
+

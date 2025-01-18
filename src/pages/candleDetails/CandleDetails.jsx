@@ -5,7 +5,21 @@ const CandleDetails = () => {
   const { candleName } = useParams();
 
   const candleDetails = {
-    Doji: "The Doji candlestick pattern represents indecision in the market. It occurs when the opening and closing prices are almost identical, forming a cross or plus sign. This pattern often suggests a potential reversal in price trends.",
+    Doji: {
+      title: "The Doji Candlestick",
+      description: "The Doji candlestick is a key indicator in technical analysis, representing a point of indecision in the market. It is characterized by the following structure:",
+      structure: [
+        {
+          name: "Body",
+          detail: "Extremely small or non-existent, reflecting the minimal difference between the opening and closing prices.",
+        },
+        {
+          name: "Shadows (Wicks)",
+          detail: "Can be long or short. The shadows' length indicates the price movement range during the period.",
+        },
+      ],
+      interpretation: "Traders often interpret the Doji as a signal of market indecision. When found in a trend, it may signal a potential reversal or continuation, depending on the surrounding context and volume.",
+    },
     Hammer: "The Hammer is a bullish reversal pattern that forms at the end of a downtrend. It has a small real body and a long lower shadow, indicating strong buying pressure after a period of selling.",
     Engulfing: "The Engulfing pattern can be bullish or bearish. In a bullish engulfing pattern, a larger green candle fully engulfs the previous red candle, signaling a reversal to an uptrend. Conversely, a bearish engulfing pattern involves a red candle engulfing the previous green candle.",
     "Morning Star": "The Morning Star is a bullish reversal pattern that forms over three candles. It consists of a long bearish candle, a small-bodied candle (indicating indecision), and a long bullish candle, signaling the end of a downtrend.",
@@ -20,8 +34,24 @@ const CandleDetails = () => {
 
   return (
     <div className="container mx-auto p-10">
-      <h1 className="text-2xl font-bold">Details for {candleName}</h1>
-      <p className="mt-4">{candleDetails[candleName] || defaultMessage}</p>
+      <h1 className="text-2xl font-bold mb-4">
+        {details?.title || `Details for ${candleName}`}
+      </h1>
+      {details ? (
+        <div>
+          <p className="mb-4">{details.description}</p>
+          <ul className="list-disc ml-5 mb-4">
+            {details.structure.map((item, index) => (
+              <li key={index}>
+                <strong>{item.name}:</strong> {item.detail}
+              </li>
+            ))}
+          </ul>
+          <p>{details.interpretation}</p>
+        </div>
+      ) : (
+        <p>{defaultMessage}</p>
+      )}
     </div>
   );
 };
