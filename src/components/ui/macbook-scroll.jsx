@@ -19,9 +19,12 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
     }
   }, []);
 
-  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.2, isMobile ? 1 : 1.5]);
-  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.6, isMobile ? 1 : 1.5]);
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
+  // Adjust scale and translate properties to limit the effect
+  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.1, isMobile ? 1 : 1.4]);
+  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.5, isMobile ? 1 : 1.3]);
+  
+  // Apply clamp to translate to stop at the end
+  const translate = useTransform(scrollYProgress, [0, 1], [0, 700]); // Stop at 700px max translation (you can tweak this)
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -29,7 +32,7 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
   return (
     <div
       ref={ref}
-      className="min-h-[200vh] flex flex-col items-center py-0 md:py-80 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100 scale-[0.35] sm:scale-50"
+      className="min-h-[200vh] flex flex-col items-center py-0 md:py-80 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100 scale-[0.3] sm:scale-45"
     >
       <motion.h2
         style={{
@@ -40,7 +43,7 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
       >
         {title || (
           <span className="text-white">
-            This Macbook is built with Tailwindcss. <br /> 
+            This Macbook is built with Tailwindcss. <br />
           </span>
         )}
       </motion.h2>
@@ -48,7 +51,7 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
       <Lid scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
       {/* Base area */}
       <div
-        className="h-[22rem] w-[32rem] bg-gray-200 dark:bg-[#272729] rounded-2xl overflow-hidden relative -z-10"
+        className="h-[20rem] w-[30rem] bg-gray-200 dark:bg-[#272729] rounded-2xl overflow-hidden relative -z-10"
       >
         {/* Above keyboard bar */}
         <div className="h-10 w-full relative">
@@ -86,7 +89,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
           transformOrigin: "bottom",
           transformStyle: "preserve-3d",
         }}
-        className="h-[12rem] w-[32rem] bg-[#010101] rounded-2xl p-2 relative"
+        className="h-[12rem] w-[30rem] bg-[#010101] rounded-2xl p-2 relative"
       >
         <div
           style={{
@@ -107,7 +110,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
           transformStyle: "preserve-3d",
           transformOrigin: "top",
         }}
-        className="h-96 w-[32rem] absolute inset-0 bg-[#010101] rounded-2xl p-2"
+        className="h-96 w-[30rem] absolute inset-0 bg-[#010101] rounded-2xl p-2"
       >
         <div className="absolute inset-0 bg-[#272729] rounded-lg" />
       </motion.div>
@@ -118,7 +121,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
 export const Trackpad = () => {
   return (
     <div
-      className="w-[40%] mx-auto h-32 rounded-xl my-1"
+      className="w-[35%] mx-auto h-32 rounded-xl my-1"
       style={{
         boxShadow: "0px 0px 1px 1px #00000020 inset",
       }}
@@ -207,10 +210,6 @@ export const Keypad = () => {
         <KBtn className="col-span-2">Control</KBtn>
         <KBtn className="col-span-6">Space</KBtn>
         <KBtn className="col-span-2">Shift</KBtn>
-
-        {/* Row 6: Spacebar */}
-
-        {/* Row 7: Enter and modifiers */}
       </div>
     </div>
   );
