@@ -19,12 +19,9 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
     }
   }, []);
 
-  // Adjust scale and translate properties to limit the effect
-  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.1, isMobile ? 1 : 1.4]);
-  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.5, isMobile ? 1 : 1.3]);
-  
-  // Apply clamp to translate to stop at the end
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 700]); // Stop at 700px max translation (you can tweak this)
+  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.1, isMobile ? 1 : 1.4]); // Reduced scale start
+  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.5, isMobile ? 1 : 1.3]); // Reduced scale start
+  const translate = useTransform(scrollYProgress, [0, 1], [0, 1000]); // Decreased translate range
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -32,7 +29,7 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
   return (
     <div
       ref={ref}
-      className="min-h-[200vh] flex flex-col items-center py-0 md:py-80 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100 scale-[0.3] sm:scale-45"
+      className="min-h-[200vh] flex flex-col items-center py-0 md:py-80 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100 scale-[0.3] sm:scale-45" // Adjusted scale
     >
       <motion.h2
         style={{
@@ -43,7 +40,7 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
       >
         {title || (
           <span className="text-white">
-            This Macbook is built with Tailwindcss. <br />
+            This Macbook is built with Tailwindcss. <br /> 
           </span>
         )}
       </motion.h2>
@@ -51,7 +48,7 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
       <Lid scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
       {/* Base area */}
       <div
-        className="h-[20rem] w-[30rem] bg-gray-200 dark:bg-[#272729] rounded-2xl overflow-hidden relative -z-10"
+        className="h-[20rem] w-[30rem] bg-gray-200 dark:bg-[#272729] rounded-2xl overflow-hidden relative -z-10" // Reduced base size
       >
         {/* Above keyboard bar */}
         <div className="h-10 w-full relative">
@@ -80,6 +77,7 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
   );
 };
 
+// Same Lid and Trackpad components
 export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
   return (
     <div className="relative [perspective:800px]">
@@ -89,7 +87,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
           transformOrigin: "bottom",
           transformStyle: "preserve-3d",
         }}
-        className="h-[12rem] w-[30rem] bg-[#010101] rounded-2xl p-2 relative"
+        className="h-[12rem] w-[30rem] bg-[#010101] rounded-2xl p-2 relative" // Reduced size
       >
         <div
           style={{
@@ -110,9 +108,24 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
           transformStyle: "preserve-3d",
           transformOrigin: "top",
         }}
-        className="h-96 w-[30rem] absolute inset-0 bg-[#010101] rounded-2xl p-2"
+        className="h-96 w-[30rem] absolute inset-0 bg-[#010101] rounded-2xl p-2" // Reduced size
       >
         <div className="absolute inset-0 bg-[#272729] rounded-lg" />
+        {/* <iframe src="https://www.youtube.com/embed/kiWxR-8xTEU?autoplay=1&mute=1" frameborder="0" className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full"/> */}
+        <video
+  className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full"
+  muted
+  autoPlay
+  loop
+  playsInline
+  disableRemotePlayback
+  poster="https://static.tradingview.com/static/bundles/chart.91804d5594db36618275.webp"
+>
+  <source src="https://static.tradingview.com/static/bundles/chart.hvc1.6ad975a60abab376b872.mp4" type="video/mp4;codecs=hvc1.1.0.L150.b0" />
+  <source src="https://static.tradingview.com/static/bundles/chart.c1cfe204b1c203ff7dd2.webm" type="video/webm" />
+  <source src="https://static.tradingview.com/static/bundles/chart.avc1.786d26d6f5289b0db8aa.mp4" type="video/webm;codecs=avc1" />
+</video>
+
       </motion.div>
     </div>
   );
@@ -121,7 +134,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
 export const Trackpad = () => {
   return (
     <div
-      className="w-[35%] mx-auto h-32 rounded-xl my-1"
+      className="w-[35%] mx-auto h-32 rounded-xl my-1" // Slightly smaller trackpad
       style={{
         boxShadow: "0px 0px 1px 1px #00000020 inset",
       }}
@@ -210,6 +223,10 @@ export const Keypad = () => {
         <KBtn className="col-span-2">Control</KBtn>
         <KBtn className="col-span-6">Space</KBtn>
         <KBtn className="col-span-2">Shift</KBtn>
+
+        {/* Row 6: Spacebar */}
+
+        {/* Row 7: Enter and modifiers */}
       </div>
     </div>
   );
