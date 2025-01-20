@@ -40,7 +40,7 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
       >
         {title || (
           <span className="text-white">
-            This Macbook is built with Tailwindcss. <br /> 
+            Trade Smart, Learn Faster. <br /> 
           </span>
         )}
       </motion.h2>
