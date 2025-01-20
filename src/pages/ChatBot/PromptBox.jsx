@@ -49,8 +49,3 @@ function PromptBox({ onSubmit }) {
 }
 
 export default PromptBox;
-
-
-
-
-

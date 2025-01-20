@@ -7,7 +7,13 @@ const CandleDetails = () => {
   const candleDetails = {
     Doji: {
       title: "The Doji Candlestick",
-      description: "The Doji candlestick is a key indicator in technical analysis, representing a point of indecision in the market. It is characterized by the following structure:",
+      description: `
+        The Doji candlestick is a key indicator in technical analysis, representing a point of indecision in the market. 
+        It forms when the opening and closing prices are nearly identical, creating a cross or a plus-shaped pattern.
+        Traders often interpret the Doji as a signal to watch for confirmation from the next candlestick before making trading decisions. 
+        When found in a trend, it may signal a potential reversal or continuation, depending on the surrounding context and volume.
+      `,
+      image: "/Doji.png",
       structure: [
         {
           name: "Body",
@@ -18,40 +24,67 @@ const CandleDetails = () => {
           detail: "Can be long or short. The shadows' length indicates the price movement range during the period.",
         },
       ],
-      interpretation: "Traders often interpret the Doji as a signal of market indecision. When found in a trend, it may signal a potential reversal or continuation, depending on the surrounding context and volume.",
+      interpretation: `
+        Traders often interpret the Doji as a signal of market indecision. When found in a trend, it may signal a potential reversal or continuation, 
+        depending on the surrounding context and volume.
+      `,
     },
-    Hammer: "The Hammer is a bullish reversal pattern that forms at the end of a downtrend. It has a small real body and a long lower shadow, indicating strong buying pressure after a period of selling.",
-    Engulfing: "The Engulfing pattern can be bullish or bearish. In a bullish engulfing pattern, a larger green candle fully engulfs the previous red candle, signaling a reversal to an uptrend. Conversely, a bearish engulfing pattern involves a red candle engulfing the previous green candle.",
-    "Morning Star": "The Morning Star is a bullish reversal pattern that forms over three candles. It consists of a long bearish candle, a small-bodied candle (indicating indecision), and a long bullish candle, signaling the end of a downtrend.",
-    "Evening Star": "The Evening Star is the opposite of the Morning Star. It is a bearish reversal pattern with a long bullish candle, a small-bodied candle, and a long bearish candle, signaling the end of an uptrend.",
-    "Piercing Line": "The Piercing Line is a bullish reversal pattern that occurs in a downtrend. It consists of a long bearish candle followed by a bullish candle that opens lower but closes above the midpoint of the previous candle.",
-    "Dark Cloud Cover": "The Dark Cloud Cover is a bearish reversal pattern that forms in an uptrend. It consists of a long bullish candle followed by a bearish candle that opens above the previous high but closes below its midpoint.",
-    "Three White Soldiers": "The Three White Soldiers pattern is a bullish reversal pattern that consists of three consecutive long bullish candles with small wicks, indicating strong buying pressure and a reversal to an uptrend.",
-    Marubozu: "The Marubozu is a candlestick with no shadows, indicating strong momentum in the direction of the candle (either bullish or bearish). A green Marubozu suggests strong buying, while a red Marubozu indicates strong selling.",
+    // Add other candlestick patterns here
+    Hammer: {
+      description: `
+        The Hammer candlestick pattern is a bullish reversal signal that typically appears at the end of a downtrend. 
+        It features a small real body near the top of the candle with a long lower shadow at least twice the length of the body. 
+        This indicates strong buying pressure after a period of selling.
+      `,
+      image: "/Hammer.png",
+    },
+    // Additional patterns ...
   };
 
   const defaultMessage = "Details for this candlestick pattern are currently unavailable.";
+  const candleData = candleDetails[candleName] || { description: defaultMessage, image: null };
 
   return (
-    <div className="container mx-auto p-10">
-      <h1 className="text-2xl font-bold mb-4">
-        {details?.title || `Details for ${candleName}`}
-      </h1>
-      {details ? (
-        <div>
-          <p className="mb-4">{details.description}</p>
-          <ul className="list-disc ml-5 mb-4">
-            {details.structure.map((item, index) => (
-              <li key={index}>
-                <strong>{item.name}:</strong> {item.detail}
-              </li>
-            ))}
-          </ul>
-          <p>{details.interpretation}</p>
+    <div
+      className="flex flex-col items-center min-h-screen"
+      style={{
+        backgroundImage: 'url("/stock.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="flex flex-col items-center justify-center w-full max-w-screen-lg p-10">
+        <h1 className="text-4xl font-extrabold mb-6 text-center text-white">
+          {candleData.title || candleName}
+        </h1>
+        <div className="flex flex-col items-center shadow-lg p-8 rounded-lg bg-white border border-gray-200">
+          {candleData.image && (
+            <img
+              src={candleData.image}
+              alt={candleName}
+              className="w-80 h-80 object-contain mb-8 border-4 border-black rounded-md"
+            />
+          )}
+          <p className="text-xl leading-relaxed text-gray-700 text-justify mb-6">
+            {candleData.description}
+          </p>
+          {candleData.structure && (
+            <ul className="list-disc ml-5 text-gray-700 mb-6">
+              {candleData.structure.map((item, index) => (
+                <li key={index}>
+                  <strong>{item.name}:</strong> {item.detail}
+                </li>
+              ))}
+            </ul>
+          )}
+          {candleData.interpretation && (
+            <p className="text-lg text-gray-700 italic">
+              <strong>Interpretation:</strong> {candleData.interpretation}
+            </p>
+          )}
         </div>
-      ) : (
-        <p>{defaultMessage}</p>
-      )}
+      </div>
     </div>
   );
 };

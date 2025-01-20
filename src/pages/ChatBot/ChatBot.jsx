@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
-import AIChatBox from './AIChatBox';
-import UserChatBox from './UserChatBox';
-import PromptBox from './PromptBox';
+import React, { useState } from "react";
+import AIChatBox from "./AIChatBox";
+import UserChatBox from "./UserChatBox";
+import PromptBox from "./PromptBox";
+import Header from "@/components/Header";
 
 function ChatBot() {
   const API_URL =
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDt6aRuVYjf2dWD7nITIZTw3Un90eL-wTE';
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDt6aRuVYjf2dWD7nITIZTw3Un90eL-wTE";
 
   async function generateResponse(message) {
-    const summarizedMessage = `Please Give the short details in a single sentence: ${message}`;
+    const summarizedMessage = ` You are a friendly and helpful chatbot. Respond in a concise and user-friendly way:
+                                - For technical or doubt-related queries, provide accurate and short answers in a single sentence.
+                                - For casual or personal interactions like "Hello" or "How are you," respond in a friendly and conversational manner, like a human.
+
+                                Query: ${message}`;
     let RequestOption = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [
           {
@@ -24,19 +29,21 @@ function ChatBot() {
     try {
       let response = await fetch(API_URL, RequestOption);
       let data = await response.json();
-      let apiResponse = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+      let apiResponse = data.candidates[0].content.parts[0].text
+        .replace(/\*\*(.*?)\*\*/g, "$1")
+        .trim();
 
       console.log(apiResponse);
 
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender: 'AI', message: apiResponse },
+        { sender: "AI", message: apiResponse },
       ]);
     } catch (error) {
       console.log(error);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender: 'AI', message: 'Error fetching AI response.' },
+        { sender: "AI", message: "Error fetching AI response." },
       ]);
     }
   }
@@ -46,13 +53,14 @@ function ChatBot() {
   const handleUserSubmit = (message) => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: 'user', message },
+      { sender: "user", message },
     ]);
 
     generateResponse(message);
   };
 
   return (
+
     <div className="bg-gray-100 min-h-screen flex flex-col justify-between text-gray-800">
       <h1 className="text-3xl font-semibold p-6 text-center text-gray-900">Classic AI ChatBot</h1>
 
@@ -78,6 +86,7 @@ function ChatBot() {
           return null;
         })}
       </div>
+    
 
       <PromptBox
         onSubmit={handleUserSubmit}
