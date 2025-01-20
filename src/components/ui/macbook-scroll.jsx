@@ -95,7 +95,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
           }}
           className="absolute inset-0 bg-[#010101] rounded-lg flex items-center justify-center"
         >
-          <span className="text-white">Aceternity Logo</span>
+          {/* <span className="text-white">Gourav</span> */}
         </div>
       </div>
 
