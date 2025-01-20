@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardHeader, CardTitle } from "@/components/ui/card"; 
+import React from "react";
+import { Link } from "react-router-dom";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
 
 function CandleChart({ name, image }) {
   return (
-    <div className="border-2 border-black flex flex-col items-center"> 
-      <img src={image} alt={name} className="h-70 w-70 object-fit cover" /> 
-      <p className="text-black mt-2 text-center font-bold text-xl">{name}</p> 
+    <div className="flex flex-col items-center">
+      <img src={image} alt={name} className="h-40 w-40 object-cover radius-full" />
+      <p className="text-black mt-2 text-center font-bold text-lg">{name}</p>
     </div>
   );
 }
@@ -25,32 +25,37 @@ function CandlePattern() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col"> 
-      <header className="bg-gray-800 text-white py-4 fixed top-0 left-0 right-0 z-10 text-center"> {/* Added text-center */}
-        <div className="container mx-auto"> 
-          <h1 className="text-3xl font-bold">Candle charts</h1>  
+    <div className="min-h-screen flex flex-col bg-black">
+      {/* Header */}
+      {/* <header className="bg-gray-800 text-white py-4 fixed top-0 left-0 right-0 z-10 text-center">
+        <div className="container mx-auto">
+          <h1 className="text-3xl font-bold">Candle Charts</h1>
         </div>
-      </header>
+      </header> */}
 
-      <div className="mt-20"> 
-        <div className="container mx-auto p-10 bg-black">
+      {/* Main Content */}
+      <div className="mt-20">
+        <div className="container mx-auto p-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {candles.map((candle, index) => (
-              <Link key={index} to={`/candle/${candle.name}`}> 
-                <Card className="hover:scale-105 transition-all hover:shadow-md cursor-pointer border-dotted border-gray-400"> 
-                  <CardHeader className="flex flex-col items-center justify-center border-2 border-black"> 
-                    <CandleChart name={candle.name} image={candle.image} /> 
-                  </CardHeader>
-                </Card>
+              <Link key={index} to={`/candle/${candle.name}`}>
+                <BackgroundGradient
+                  containerClassName="hover:scale-105 transition-all hover:shadow-md cursor-pointer"
+                >
+                  <div className="p-2 flex flex-col items-center bg-white">
+                    <CandleChart name={candle.name} image={candle.image} />
+                  </div>
+                </BackgroundGradient>
               </Link>
             ))}
           </div>
         </div>
       </div>
 
-      <footer className="bg-gray-800 text-white py-4 mt-auto"> 
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-4 mt-auto">
         <div className="container mx-auto text-center">
-          <p>&copy; 2025 Your Company Name. All rights reserved.</p> 
+          <p>&copy; 2025 Your Company Name. All rights reserved.</p>
         </div>
       </footer>
     </div>
