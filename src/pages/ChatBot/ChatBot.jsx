@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AIChatBox from "./AIChatBox";
 import UserChatBox from "./UserChatBox";
 import PromptBox from "./PromptBox";
+import Header from "@/components/Header";
 
 function ChatBot() {
   const API_URL =
@@ -59,7 +60,7 @@ function ChatBot() {
   };
 
   return (
-    <div className="bg-gray-600 min-h-screen">
+    <div className="bg-black min-h-screen">
       <h1 className="text-white p-4">This is a ChatBot.</h1>
 
       {messages.map((msg, index) => {

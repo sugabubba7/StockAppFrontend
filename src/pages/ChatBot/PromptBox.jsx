@@ -29,9 +29,9 @@ function PromptBox({ onSubmit }) {
         value={input}
         onChange={handleChange}
         onKeyDown={handleKeyDown}  
-        className="border-gray-950 shadow-black rounded-lg p-2 bg-black flex-grow max-w-lg text-white"
+        className="border-gray-950 shadow-black rounded-lg p-2 bg-white flex-grow max-w-lg text-black"
       />
-      <button type="submit" onClick={handleSubmit}>
+      <button type="submit" onClick={handleSubmit} >
         <img
           src="./Submit.png"
           alt="Submit Button"
