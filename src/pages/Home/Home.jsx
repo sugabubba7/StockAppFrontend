@@ -50,6 +50,10 @@ function Home() {
           </span>
         </h1>
       </div>
+
+      <div className="relative z-10">
+        <MacbookScroll />
+      </div>
     </div>
   );
 }
