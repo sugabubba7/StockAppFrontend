@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
-
+import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 function Header() {
   const navigate = useNavigate(); // Initialize the navigate function
@@ -26,12 +26,26 @@ function Header() {
         borderBottom: "1px solid rgba(255, 255, 255, 0.18)",
       }}
     >
-      <Button className="bg-black hover:bg-slate-700" onClick={() => navigate('/') }>Home</Button>
-      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/stock') }>Stock Market</Button>
-      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/crypto') }>Crypto Market</Button>
-      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/learn')}>Learn</Button>
-      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/chat')}>Chat</Button>
-      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/login')}>Login/Register</Button>
+      <div className="ml-auto flex gap-5">
+        <HoverBorderGradient onClick={() => navigate("/")}>
+          Home
+        </HoverBorderGradient>
+        <HoverBorderGradient onClick={() => navigate("/stock")}>
+          Stock Market
+        </HoverBorderGradient>
+        <HoverBorderGradient onClick={() => navigate("/crypto")}>
+          Crypto Market
+        </HoverBorderGradient>
+        <HoverBorderGradient onClick={() => navigate("/learn")}>
+          Learn
+        </HoverBorderGradient>
+        <HoverBorderGradient onClick={() => navigate("/chat")}>
+          Chat
+        </HoverBorderGradient>
+        <HoverBorderGradient onClick={() => navigate("/login")}>
+          Login/Register
+        </HoverBorderGradient>
+      </div>
     </div>
   );
 }
