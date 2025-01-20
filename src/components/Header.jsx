@@ -26,10 +26,11 @@ function Header() {
         borderBottom: "1px solid rgba(255, 255, 255, 0.18)",
       }}
     >
-      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/chat')}>Chat</Button>
       <Button className="bg-black hover:bg-slate-700" onClick={() => navigate('/') }>Home</Button>
-      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/crypto') }>Crypto Market</Button>
       <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/stock') }>Stock Market</Button>
+      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/crypto') }>Crypto Market</Button>
+      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/learn')}>Learn</Button>
+      <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/chat')}>Chat</Button>
       <Button className="bg-black hover:bg-slate-700" onClick= {() => navigate('/login')}>Login/Register</Button>
     </div>
   );
