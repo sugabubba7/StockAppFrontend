@@ -4,6 +4,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 // import NavLogo from "public/Logo.png";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -146,8 +147,12 @@ const SplashButton = ({ children, className, ...rest }) => {
 };
 
 const BubbleButton = ({ children, className, ...rest }) => {
+  const navigate = useNavigate();
+  const goHome = () => {
+  navigate("/");
+}
   return (
-    <button
+    <button 
       className={twMerge(
         `
         relative z-0 flex items-center gap-2 overflow-hidden whitespace-nowrap rounded-md 
@@ -167,8 +172,8 @@ const BubbleButton = ({ children, className, ...rest }) => {
         active:scale-100`,
         className
       )}
-      {...rest}
-    >
+      {...rest} onClick={goHome}
+    > 
       {children}
     </button>
   );

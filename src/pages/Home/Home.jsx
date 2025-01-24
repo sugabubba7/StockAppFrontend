@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { MacbookScroll } from "@/components/ui/macbook-scroll";
 import { Cover } from "@/components/ui/cover";
-import Header from "@/components/Header";
+// import Header from "@/components/Header";
+import Example from "@/components/Header";
 
 function Home() {
   const [hoveredIndex, setHoveredIndex] = useState(-1);
@@ -36,9 +37,9 @@ function Home() {
 
   return (
     <div className="bg-black min-h-screen">
-      <Header />
-      <div className="text-left py-12  pt-32">
-        <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto text-left mt-6 relative z-20 py-6">
+      <Example />
+      <div className="text-left pt-32">
+        <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold mx-w-auto mx-auto text-center relative z-20">
           {renderTextWithHover(firstLine, 0)}
 
           <br />
