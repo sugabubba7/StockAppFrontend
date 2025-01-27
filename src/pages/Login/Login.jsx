@@ -27,7 +27,7 @@ const Login = () => {
           duration: 1.25,
           ease: "easeInOut",
         }}
-        className="relative z-10 mx-auto w-full max-w-xl p-4"
+        className="mx-auto w-full max-w-xl "
       >
         <Heading />
 
@@ -44,7 +44,7 @@ const Login = () => {
 const Heading = () => (
   <div>
     <NavLogo />
-    <div className="mb-9 mt-6 space-y-1.5">
+    <div className=" ">
       <h1 className="text-2xl font-semibold">Sign in to your account</h1>
       <p className="text-zinc-400">
         Don't have an account?{" "}
@@ -146,7 +146,7 @@ const SplashButton = ({ children, className, ...rest }) => {
   );
 };
 
-const BubbleButton = ({ children, className, ...rest }) => {
+export const BubbleButton = ({ children, className, ...rest }) => {
   const navigate = useNavigate();
   const goHome = () => {
   navigate("/");

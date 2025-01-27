@@ -9,7 +9,7 @@ function Home() {
   const [isAtHovered, setIsAtHovered] = useState(false);
 
   const firstLine = "Analyze the real-time stock market";
-  const secondLine = "at";
+  const secondLine = "at"; 
 
   const handleMouseMove = (wordIndex, charIndex) => {
     setHoveredIndex(`${wordIndex}-${charIndex}`);

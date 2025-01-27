@@ -59,7 +59,7 @@ const Example = () => {
   );
 };
 
-const SimpleFloatingNav = () => {
+export const SimpleFloatingNav = () => {
   return (
     <nav className="fixed left-[50%] top-8 flex w-fit -translate-x-[50%] items-center gap-6 rounded-lg border-[1px] border-neutral-700 bg-neutral-900 p-2 text-sm text-neutral-500">
       <Logo />
@@ -98,7 +98,7 @@ const Logo = () => {
   );
 };
 
-const NavLink = ({ children, link }) => {
+export const NavLink = ({ children, link }) => {
   return (
     <a href={link} rel="nofollow" className="block overflow-hidden">
       <motion.div
@@ -141,5 +141,4 @@ const JoinButton = () => {
 
 
 export default Example ;
-
 // export default Header;

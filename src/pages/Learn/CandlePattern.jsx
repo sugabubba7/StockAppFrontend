@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { SimpleFloatingNav } from "@/components/Header";
 
 function CandleChart({ name, image }) {
   return (
@@ -32,6 +33,8 @@ function CandlePattern() {
           <h1 className="text-3xl font-bold">Candle Charts</h1>
         </div>
       </header> */}
+
+      <SimpleFloatingNav />
 
       {/* Main Content */}
       <div className="mt-20">
