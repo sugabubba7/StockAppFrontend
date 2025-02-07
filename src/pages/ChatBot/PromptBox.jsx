@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Pattern from './Pattern.jsx';
 
 function PromptBox({ onSubmit }) {
   const [input, setInput] = useState('');
@@ -23,6 +24,7 @@ function PromptBox({ onSubmit }) {
 
   return (
     <div className="fixed bottom-0 left-0 w-full p-4 flex items-center justify-center bg-gradient-to-b from-gray-900 to-black">
+      <Pattern />
       <div className="flex items-center gap-3 w-full max-w-lg">
         <input
           type="text"
