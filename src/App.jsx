@@ -8,6 +8,7 @@ import Login from "./pages/Login/Login";
 import CryptoMarket from "./pages/CryptoMarket/CryptoMarket";
 import StockMarket from "./pages/IndianStocks/StockMarket";
 
+
 const App = () => {
   return (
     <Router>

@@ -4,6 +4,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 // import NavLogo from "public/Logo.png";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -26,7 +27,7 @@ const Login = () => {
           duration: 1.25,
           ease: "easeInOut",
         }}
-        className="relative z-10 mx-auto w-full max-w-xl p-4"
+        className="mx-auto w-full max-w-xl "
       >
         <Heading />
 
@@ -43,7 +44,7 @@ const Login = () => {
 const Heading = () => (
   <div>
     <NavLogo />
-    <div className="mb-9 mt-6 space-y-1.5">
+    <div className=" ">
       <h1 className="text-2xl font-semibold">Sign in to your account</h1>
       <p className="text-zinc-400">
         Don't have an account?{" "}
@@ -145,9 +146,13 @@ const SplashButton = ({ children, className, ...rest }) => {
   );
 };
 
-const BubbleButton = ({ children, className, ...rest }) => {
+export const BubbleButton = ({ children, className, ...rest }) => {
+  const navigate = useNavigate();
+  const goHome = () => {
+  navigate("/");
+}
   return (
-    <button
+    <button 
       className={twMerge(
         `
         relative z-0 flex items-center gap-2 overflow-hidden whitespace-nowrap rounded-md 
@@ -167,31 +172,31 @@ const BubbleButton = ({ children, className, ...rest }) => {
         active:scale-100`,
         className
       )}
-      {...rest}
-    >
+      {...rest} onClick={goHome}
+    > 
       {children}
     </button>
   );
 };
 
-const CornerGrid = () => {
-  return (
-    <div
-      style={{
-        backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke-width='2' stroke='rgb(30 58 138 / 0.5)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e")`,
-      }}
-      className="absolute right-0 top-0 z-0 size-[50vw]"
-    >
-      <div
-        style={{
-          backgroundImage:
-            "radial-gradient(100% 100% at 100% 0%, rgba(9,9,11,0), rgba(9,9,11,1))",
-        }}
-        className="absolute inset-0"
-      />
-    </div>
-  );
-};
+// const CornerGrid = () => {
+//   return (
+//     <div
+//       style={{
+//         backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke-width='2' stroke='rgb(30 58 138 / 0.5)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e")`,
+//       }}
+//       className="absolute right-0 top-0 z-0 size-[50vw]"
+//     >
+//       <div
+//         style={{
+//           backgroundImage:
+//             "radial-gradient(100% 100% at 100% 0%, rgba(9,9,11,0), rgba(9,9,11,1))",
+//         }}
+//         className="absolute inset-0"
+//       />
+//     </div>
+//   );
+// };
 
 const NavLogo = () => { //change the logo
   return (
