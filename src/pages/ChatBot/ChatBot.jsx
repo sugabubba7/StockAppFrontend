@@ -10,8 +10,9 @@ function ChatBot() {
 
   async function generateResponse(message) {
     const summarizedMessage = ` You are a friendly and helpful chatbot. Respond in a concise and user-friendly way:
-                                - For technical or doubt-related queries, provide accurate and short answers in a single sentence.
-                                - For casual or personal interactions like "Hello" or "How are you," respond in a friendly and conversational manner, like a human.
+                                	- For technical or doubt-related queries, provide accurate and concise answers in a single sentence.
+                                  - For casual or personal interactions like “Hello” or “How are you,” respond in a friendly and conversational manner, like a human.
+                                  - For stock market-related questions, use highly technical financial and trading terms but explain them in an easy-to-understand way.
 
                                 Query: ${message}`;
     let RequestOption = {
@@ -62,7 +63,7 @@ function ChatBot() {
   return (
 
     <div className="bg-gray-100 min-h-screen flex flex-col justify-between text-gray-800">
-      <h1 className="text-3xl font-semibold p-6 text-center text-gray-900">Classic AI ChatBot</h1>
+      <h1 className="text-3xl font-semibold p-6 text-center text-gray-900">StockBot2000</h1>
 
       <div className="flex-1 overflow-y-auto p-4">
         {messages.map((msg, index) => {
