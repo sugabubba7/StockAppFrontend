@@ -2,10 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BackgroundLayout from "@/components/ui/background-layout.jsx";
 import { SimpleFloatingNav } from "@/components/Header.jsx";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 function StockMarket() {
-  const [stocks, setStocks] = useState([]);
+  const [stocks, setStocks] = useState(() => {
+    const savedStocks = localStorage.getItem("stocks");
+    return savedStocks ? JSON.parse(savedStocks) : [];
+  });
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const apiKey = import.meta.env.VITE_TWELVE_DATA_API_KEY;
@@ -17,15 +27,13 @@ function StockMarket() {
     "ICICIBANK",
     "INFY",
     "HINDUNILVR",
-  ]; 
+  ];
 
   const fetchStockData = async () => {
     try {
       console.log("Fetching stock data...");
 
-      const url = `https://api.twelvedata.com/time_series?symbol=${stockSymbols.join(
-        ","
-      )}&interval=5min&apikey=${apiKey}`;
+      const url = `https://api.twelvedata.com/time_series?symbol=${stockSymbols.join(",")}&interval=5min&apikey=${apiKey}`;
 
       const response = await fetch(url);
       const data = await response.json();
@@ -37,33 +45,86 @@ function StockMarket() {
       }
 
       const formattedStocks = Object.keys(data)
-        .filter((key) => data[key]?.meta && data[key]?.values) 
-        .map((key) => ({
-          name: data[key].meta.symbol,
-          symbol: data[key].meta.symbol,
-          price: parseFloat(data[key].values[0]?.close || 0),
-          marketCap: "N/A",
-          priceHistory: data[key].values.map((entry) => ({
-            time: entry.datetime,
+        .filter((key) => data[key]?.meta && data[key]?.values)
+        .map((key) => {
+          const priceHistory = data[key].values.map((entry) => ({
+            timestamp: new Date(entry.datetime).getTime(),
+            time: entry.datetime.slice(11, 16), 
             price: parseFloat(entry.close),
-          })),
-        }));
+          }));
+
+          const latestPrice = priceHistory[0]?.price || 0;
+          const previousPrice = priceHistory[1]?.price || latestPrice;
+          const isUptrend = latestPrice >= previousPrice; 
+
+          return {
+            name: data[key].meta.symbol,
+            symbol: data[key].meta.symbol,
+            price: latestPrice,
+            marketCap: "N/A",
+            priceHistory,
+            isUptrend, 
+          };
+        });
 
       setStocks(formattedStocks);
+      localStorage.setItem("stocks", JSON.stringify(formattedStocks));
+      localStorage.setItem("lastFetchTime", Date.now());
     } catch (error) {
       console.error("Error fetching stock data:", error);
     }
   };
 
   useEffect(() => {
-    fetchStockData(); 
+    const lastFetchTime = localStorage.getItem("lastFetchTime");
+    const currentTime = Date.now();
+    const twoMinutes = 2 * 60 * 1000;
 
-    const interval = setInterval(() => {
-      fetchStockData(); 
-    }, 120000);
+    if (!lastFetchTime || currentTime - lastFetchTime > twoMinutes) {
+      fetchStockData();
+    }
 
-    return () => clearInterval(interval); 
+    const interval = setInterval(fetchStockData, 120000);
+    return () => clearInterval(interval);
   }, []);
+
+  const formatTimestampToIST = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      day: "2-digit",
+      month: "short", 
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
+  };
+
+  const CustomTooltip = ({ active, payload, coordinate }) => {
+    if (active && payload && payload.length) {
+      const { timestamp, price } = payload[0].payload;
+
+      return (
+        <div
+          className="bg-gray-900 text-white p-2 rounded-lg shadow-lg text-sm absolute"
+          style={{
+            minWidth: "140px",
+            textAlign: "center",
+            left: `${coordinate.x}px`,
+            top: `${coordinate.y + 10}px`,
+            transform: "translateX(-50%)",
+            pointerEvents: "none",
+          }}
+        >
+          <p className="whitespace-nowrap">📅 {formatTimestampToIST(timestamp)}</p>
+          <p className="whitespace-nowrap">💰 Price: ₹{price.toFixed(2)}</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   const filteredStocks = stocks.filter((stock) =>
     stock.name.toLowerCase().includes(search.toLowerCase())
@@ -95,22 +156,21 @@ function StockMarket() {
               onClick={() => navigate(`/stock/${stock.symbol}`)}
             >
               <div>
-                <h2 className="text-lg font-semibold text-white">
-                  {stock.name}
-                </h2>
-                <p className="text-gray-300">
-                  Price: ₹{stock.price ? stock.price.toFixed(2) : "N/A"}
-                </p>
+                <h2 className="text-lg font-semibold text-white">{stock.name}</h2>
+                <p className="text-gray-300">Price: ₹{stock.price ? stock.price.toFixed(2) : "N/A"}</p>
                 <p className="text-gray-300">Market Cap: {stock.marketCap}</p>
               </div>
 
-              <div className="h-16 w-32">
+              <div className="h-20 w-36">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={stock.priceHistory}>
+                    <XAxis dataKey="time" hide />
+                    <YAxis hide />
+                    <Tooltip content={<CustomTooltip />} />
                     <Line
                       type="monotone"
                       dataKey="price"
-                      stroke="#ffffff"
+                      stroke={stock.isUptrend ? "#10B981" : "#EF4444"}
                       strokeWidth={2}
                       dot={false}
                     />
