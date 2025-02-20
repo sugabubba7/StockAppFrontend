@@ -1,102 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AIChatBox from "./AIChatBox";
 import UserChatBox from "./UserChatBox";
 import PromptBox from "./PromptBox";
-import Header from "@/components/Header";
 
 function ChatBot() {
-  const API_URL =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDt6aRuVYjf2dWD7nITIZTw3Un90eL-wTE";
+  const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDt6aRuVYjf2dWD7nITIZTw3Un90eL-wTE";
+  
+  const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   async function generateResponse(message) {
-    const summarizedMessage = ` You are a friendly and helpful chatbot. Respond in a concise and user-friendly way:
-                                - For technical or doubt-related queries, provide accurate and short answers in a single sentence.
-                                - For casual or personal interactions like "Hello" or "How are you," respond in a friendly and conversational manner, like a human.
+    setIsLoading(true);
 
-                                Query: ${message}`;
+    const summarizedMessage = `You are a friendly and helpful chatbot. Respond concisely and accurately. Query: ${message}`;
     let RequestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [{ text: summarizedMessage }],
-          },
-        ],
-      }),
+      body: JSON.stringify({ contents: [{ parts: [{ text: summarizedMessage }] }] }),
     };
 
     try {
       let response = await fetch(API_URL, RequestOption);
       let data = await response.json();
-      let apiResponse = data.candidates[0].content.parts[0].text
-        .replace(/\*\*(.*?)\*\*/g, "$1")
-        .trim();
-
-      console.log(apiResponse);
-
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "AI", message: apiResponse },
-      ]);
+      let apiResponse = data.candidates[0].content.parts[0].text.trim();
+      setMessages((prevMessages) => [...prevMessages, { sender: "AI", message: apiResponse }]);
     } catch (error) {
-      console.log(error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "AI", message: "Error fetching AI response." },
-      ]);
+      setMessages((prevMessages) => [...prevMessages, { sender: "AI", message: "Error fetching AI response." }]);
     }
+    
+    setIsLoading(false);
   }
 
-  const [messages, setMessages] = useState([]);
-
   const handleUserSubmit = (message) => {
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { sender: "user", message },
-    ]);
-
+    setMessages((prevMessages) => [...prevMessages, { sender: "user", message }]);
     generateResponse(message);
   };
 
   return (
-
-    <div className="bg-gray-100 min-h-screen flex flex-col justify-between text-gray-800">
+    <div className="bg-gray-100 min-h-screen flex flex-col text-gray-800">
       <h1 className="text-3xl font-semibold p-6 text-center text-gray-900">Classic AI ChatBot</h1>
-
-      <div className="flex-1 overflow-y-auto p-4">
-        {messages.map((msg, index) => {
-          if (msg.sender === 'user') {
-            return (
-              <UserChatBox
-                key={index}
-                message={msg.message}
-                className="mb-3 bg-white text-gray-700 border border-gray-300 rounded-lg shadow-sm"
-              />
-            );
-          } else if (msg.sender === 'AI') {
-            return (
-              <AIChatBox
-                key={index}
-                message={msg.message}
-                className="mb-3 bg-gray-50 text-gray-700 border border-gray-300 rounded-lg shadow-sm"
-              />
-            );
-          }
-          return null;
-        })}
+      
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 pb-28 max-h-[calc(100vh-150px)]">
+        {messages.map((msg, index) => (
+          msg.sender === 'user' ? (
+            <UserChatBox key={index} message={msg.message} />
+          ) : (
+            <AIChatBox key={index} message={msg.message} isLoading={false} />
+          )
+        ))}
+        
+        {isLoading && <AIChatBox message="AI is thinking..." isLoading={true} />}
       </div>
-    
 
-      <PromptBox
-        onSubmit={handleUserSubmit}
-        className="bg-gray-300 hover:bg-gray-400 transition-all duration-300 text-gray-900 font-semibold p-3 rounded-lg shadow-md"
-      />
+      <div className="fixed bottom-0 left-0 w-full bg-white shadow-lg p-4">
+        <PromptBox onSubmit={handleUserSubmit} />
+      </div>
     </div>
   );
 }
 
 export default ChatBot;
-
-
-
