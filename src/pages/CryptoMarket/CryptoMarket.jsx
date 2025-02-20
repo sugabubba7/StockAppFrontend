@@ -17,7 +17,7 @@ function Crypto() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchCryptoData() {
+    const fetchCryptoData = async () => {
       try {
         const response = await fetch(
           "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=true"
@@ -51,13 +51,23 @@ function Crypto() {
           };
         });
 
+        localStorage.setItem("cryptoData", JSON.stringify(formattedCryptos));
+        localStorage.setItem("cryptoFetchTimestamp", Date.now().toString());
         setCryptos(formattedCryptos);
       } catch (error) {
         console.error("Error fetching crypto data:", error);
       }
-    }
+    };
 
-    fetchCryptoData();
+    const cachedData = localStorage.getItem("cryptoData");
+    const lastFetchTime = localStorage.getItem("cryptoFetchTimestamp");
+    const THIRTY_MINUTES = 30 * 60 * 1000;
+
+    if (cachedData && lastFetchTime && Date.now() - lastFetchTime < THIRTY_MINUTES) {
+      setCryptos(JSON.parse(cachedData));
+    } else {
+      fetchCryptoData();
+    }
   }, []);
 
   const formatTimestampToIST = (timestamp) => {
@@ -77,7 +87,6 @@ function Crypto() {
   const CustomTooltip = ({ active, payload, coordinate }) => {
     if (active && payload && payload.length) {
       const { timestamp, price } = payload[0].payload;
-
       return (
         <div
           className="bg-gray-900 text-white p-2 rounded-lg shadow-lg text-sm absolute"
@@ -90,9 +99,7 @@ function Crypto() {
             pointerEvents: "none",
           }}
         >
-          <p className="whitespace-nowrap">
-            📅 {formatTimestampToIST(timestamp)}
-          </p>
+          <p className="whitespace-nowrap">📅 {formatTimestampToIST(timestamp)}</p>
           <p className="whitespace-nowrap">💰 Price: ${price.toFixed(2)}</p>
         </div>
       );
@@ -129,12 +136,8 @@ function Crypto() {
             >
               <div>
                 <h2 className="text-lg font-semibold">{crypto.name}</h2>
-                <p className="text-gray-300">
-                  Price: ${crypto.current_price.toFixed(2)}
-                </p>
-                <p className="text-gray-300">
-                  Market Cap: ${crypto.market_cap.toLocaleString()}
-                </p>
+                <p className="text-gray-300">Price: ${crypto.current_price.toFixed(2)}</p>
+                <p className="text-gray-300">Market Cap: ${crypto.market_cap.toLocaleString()}</p>
               </div>
 
               <div className="h-20 w-36">

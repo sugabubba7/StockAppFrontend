@@ -21,14 +21,14 @@ function CryptoDetail() {
   const [isCandlestick, setIsCandlestick] = useState(true);
 
   useEffect(() => {
-    async function fetchCryptoDetail() {
+    const fetchCryptoDetail = async () => {
       try {
         const response = await fetch(
           `https://api.coingecko.com/api/v3/coins/${id}?localization=false&sparkline=true`
         );
         const data = await response.json();
-
         const currentTimestamp = Date.now();
+
         const priceHistory = data.market_data.sparkline_7d.price.map(
           (price, index) => ({
             timestamp:
@@ -61,10 +61,26 @@ function CryptoDetail() {
           }
         }
 
+        const cryptoData = { data, chartData: { trend: priceHistory, candle: candleData }, timestamp: currentTimestamp };
+
+        localStorage.setItem(`crypto_${id}`, JSON.stringify(cryptoData));
         setCrypto(data);
-        setChartData({ trend: priceHistory, candle: candleData });
+        setChartData(cryptoData.chartData);
       } catch (error) {
         console.error("Error fetching crypto details:", error);
+      }
+    };
+
+    const cachedData = localStorage.getItem(`crypto_${id}`);
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData);
+      const currentTime = Date.now();
+      const timeDifference = currentTime - parsedData.timestamp;
+
+      if (timeDifference < 15 * 60 * 1000) {
+        setCrypto(parsedData.data);
+        setChartData(parsedData.chartData);
+        return;
       }
     }
 
