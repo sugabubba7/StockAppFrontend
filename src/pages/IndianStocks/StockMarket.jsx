@@ -19,7 +19,6 @@ function StockMarket() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const apiKey = import.meta.env.VITE_TWELVE_DATA_API_KEY;
-
   const stockSymbols = [
     "RELIANCE",
     "TCS",
