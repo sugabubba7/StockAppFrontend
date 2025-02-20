@@ -12,6 +12,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.1",
     "@react-three/fiber": "^8.17.12",
+    "@rongmz/trading-charts": "^2.2.11",
     "@tabler/icons-react": "^3.29.0",
     "@tsparticles/engine": "^3.7.1",
     "@tsparticles/react": "^3.0.0",
