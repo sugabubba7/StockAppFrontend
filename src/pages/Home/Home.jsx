@@ -5,14 +5,17 @@ import Example from "@/components/Header";
 import { GridBackgroundDemo } from "@/components/ui/GridBackgroundDemo";
 
 function Home() {
-  const [lastHoveredIndex, setLastHoveredIndex] = useState(-1);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const firstLine = "Analyze the real-time stock market";
-  const secondLine = "at";
+  const firstLine = "Analyze and Trade";
+  const secondLine = "with real-time insights";
 
-  const handleMouseMove = (wordIndex, charIndex) => {
-    const currentIndex = wordIndex * 100 + charIndex; // Unique index
-    setLastHoveredIndex(currentIndex); // Update based on cursor position
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
   };
 
   const renderTextWithHover = (text, wordIndex) => {
@@ -21,13 +24,16 @@ function Home() {
         {text.split(" ").map((word, wIndex) => (
           <span key={wIndex} className="inline-block mr-2">
             {word.split("").map((char, cIndex) => {
-              const currentIndex = wIndex * 100 + cIndex;
+              const charIndex = `${wordIndex}-${wIndex}-${cIndex}`;
               return (
                 <span
                   key={cIndex}
-                  onMouseEnter={() => handleMouseMove(wIndex, cIndex)}
-                  className={`inline-block transition-colors duration-300 ${
-                    currentIndex <= lastHoveredIndex ? "text-white" : "text-neutral-500"
+                  onMouseEnter={() => handleMouseEnter(charIndex)}
+                  onMouseLeave={handleMouseLeave}
+                  className={`inline-block transition-all duration-500 ease-out ${
+                    hoveredIndex === charIndex
+                      ? "text-gray-400 scale-125 transform transition-transform"
+                      : "text-white"
                   }`}
                 >
                   {char}
@@ -42,27 +48,38 @@ function Home() {
 
   return (
     <div className="relative bg-black min-h-screen">
-      {/* Background Layer */}
       <div className="absolute inset-0 z-0 bg-black">
         <GridBackgroundDemo />
       </div>
-
-      {/* Foreground Content */}
       <div className="relative z-10">
         <Example />
         <div className="text-left pt-32">
-          <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-auto mx-auto text-center mt-3">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold max-w-auto mx-auto text-center mt-12 leading-tight">
             {renderTextWithHover(firstLine, 0)}
             <br />
-            <span
-              className={`inline-block mx-1 transition-colors duration-300`}
-            >
+            <span className="inline-block mx-1 transition-colors duration-300">
               {renderTextWithHover(secondLine, 1)}
-              <Cover>warp speed</Cover>
+              <Cover>seamlessly</Cover>
             </span>
           </h1>
         </div>
-        <div className="relative">
+
+        <p className="text-lg text-gray-400 text-center max-w-3xl mx-auto mt-6 px-6">
+          Stay ahead with real-time stock data, AI-powered trade insights, and
+          advanced market analytics – all in one place.
+        </p>
+
+        <div className="flex justify-center gap-6 mt-8">
+          <button className="px-6 py-3 bg-gray-100 text-black font-semibold rounded-lg transition-all duration-500 ease-in-out hover:bg-black hover:text-white hover:shadow-lg">
+            Get Started
+          </button>
+
+          <button className="px-6 py-3 bg-black text-white font-semibold rounded-lg transition-all duration-200 ease-in-out hover:bg-gray-900 hover:shadow-lg">
+            Know More
+          </button>
+        </div>
+
+        <div className="relative mt-24">
           <MacbookScroll />
         </div>
       </div>

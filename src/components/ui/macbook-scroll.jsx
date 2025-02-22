@@ -19,8 +19,16 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
     }
   }, []);
 
-  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.1, isMobile ? 1 : 1.4]); // Reduced scale start
-  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.5, isMobile ? 1 : 1.3]); // Reduced scale start
+  const scaleX = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    [1.1, isMobile ? 1 : 1.4]
+  ); // Reduced scale start
+  const scaleY = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    [0.5, isMobile ? 1 : 1.3]
+  ); // Reduced scale start
   const translate = useTransform(scrollYProgress, [0, 1], [0, 1000]); // Decreased translate range
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
@@ -40,12 +48,17 @@ export const MacbookScroll = ({ showGradient, title, badge }) => {
       >
         {title || (
           <span className="text-white">
-            Trade Smart, Learn Faster. <br /> 
+            Trade Smart, Learn Faster. <br />
           </span>
         )}
       </motion.h2>
       {/* Lid */}
-      <Lid scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
+      <Lid
+        scaleX={scaleX}
+        scaleY={scaleY}
+        rotate={rotate}
+        translate={translate}
+      />
       {/* Base area */}
       <div
         className="h-[20rem] w-[30rem] bg-gray-200 dark:bg-[#272729] rounded-2xl overflow-hidden relative -z-10" // Reduced base size
@@ -87,16 +100,14 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
           transformOrigin: "bottom",
           transformStyle: "preserve-3d",
         }}
-        className="h-[12rem] w-[30rem] bg-[#010101] rounded-2xl p-2 relative" // Reduced size
+        className="h-[12rem] w-[30rem] bg-[#010101] rounded-2xl p-2 relative"
       >
         <div
           style={{
-            boxShadow: "0px 2px 0px 2px var(--neutral-900) inset",
+            boxShadow: "0px 2px 0px 2px black inset", // Changed edge to black
           }}
           className="absolute inset-0 bg-[#010101] rounded-lg flex items-center justify-center"
-        >
-          {/* <span className="text-white">Gourav</span> */}
-        </div>
+        />
       </div>
 
       <motion.div
@@ -108,28 +119,38 @@ export const Lid = ({ scaleX, scaleY, rotate, translate }) => {
           transformStyle: "preserve-3d",
           transformOrigin: "top",
         }}
-        className="h-96 w-[30rem] absolute inset-0 bg-[#010101] rounded-2xl p-2" // Reduced size
+        className="h-96 w-[30rem] absolute inset-0 bg-[#010101] rounded-2xl p-2"
       >
-        <div className="absolute inset-0 bg-[#272729] rounded-lg" />
-        {/* <iframe src="https://www.youtube.com/embed/kiWxR-8xTEU?autoplay=1&mute=1" frameborder="0" className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full"/> */}
+        <div
+          className="absolute inset-0 bg-black rounded-lg"
+        />
         <video
-  className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full"
-  muted
-  autoPlay
-  loop
-  playsInline
-  disableRemotePlayback
-  poster="https://static.tradingview.com/static/bundles/chart.91804d5594db36618275.webp"
->
-  <source src="https://static.tradingview.com/static/bundles/chart.hvc1.6ad975a60abab376b872.mp4" type="video/mp4;codecs=hvc1.1.0.L150.b0" />
-  <source src="https://static.tradingview.com/static/bundles/chart.c1cfe204b1c203ff7dd2.webm" type="video/webm" />
-  <source src="https://static.tradingview.com/static/bundles/chart.avc1.786d26d6f5289b0db8aa.mp4" type="video/webm;codecs=avc1" />
-</video>
-
+          className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full"
+          muted
+          autoPlay
+          loop
+          playsInline
+          disableRemotePlayback
+          poster="https://static.tradingview.com/static/bundles/chart.91804d5594db36618275.webp"
+        >
+          <source
+            src="https://static.tradingview.com/static/bundles/chart.hvc1.6ad975a60abab376b872.mp4"
+            type="video/mp4;codecs=hvc1.1.0.L150.b0"
+          />
+          <source
+            src="https://static.tradingview.com/static/bundles/chart.c1cfe204b1c203ff7dd2.webm"
+            type="video/webm"
+          />
+          <source
+            src="https://static.tradingview.com/static/bundles/chart.avc1.786d26d6f5289b0db8aa.mp4"
+            type="video/webm;codecs=avc1"
+          />
+        </video>
       </motion.div>
     </div>
   );
 };
+
 
 export const Trackpad = () => {
   return (
