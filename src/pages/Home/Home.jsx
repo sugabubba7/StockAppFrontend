@@ -51,7 +51,7 @@ function Home() {
       <div className="relative z-10">
         <Example />
         <div className="text-left pt-32">
-          <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-auto mx-auto text-center">
+          <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-auto mx-auto text-center mt-3">
             {renderTextWithHover(firstLine, 0)}
             <br />
             <span
