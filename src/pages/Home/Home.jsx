@@ -114,17 +114,16 @@ function Home() {
         </div>
         <div className="flex justify-center gap-6 mt-8">
           <motion.button
-            whileHover={{ scale: 1.08, boxShadow: "0px 0px 10px rgba(255,255,255,0.6)" }}
+            whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-gray-100 text-black font-semibold rounded-lg transition-all duration-500 ease-in-out hover:bg-black hover:text-white"
+            className="px-6 py-3 bg-gray-100 text-black font-semibold rounded-lg hover:bg-black hover:text-white"
           >
             Get Started
           </motion.button>
-
           <motion.button
-            whileHover={{ scale: 1.08, boxShadow: "0px 0px 10px rgba(255,255,255,0.6)" }}
+            whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-black text-white font-semibold rounded-lg transition-all duration-200 ease-in-out hover:bg-gray-900"
+            className="px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-900"
           >
             Know More
           </motion.button>
